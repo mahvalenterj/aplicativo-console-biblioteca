@@ -5,45 +5,45 @@ namespace Biblioteca
 {
     public class ServicosBiblioteca
     {
-        private List<Pessoa> pessoas;
+        private List<Socio> socios;
         private List<Livro> livros;
         private List<Emprestimo> emprestimos;
 
         public ServicosBiblioteca()
         {
-            pessoas = new List<Pessoa>();
+            socios = new List<Socio>();
             livros = new List<Livro>();
             emprestimos = new List<Emprestimo>();
         }
 
-        public bool CadastrarPessoa(string nome, int idade, string endereco)
+        public bool CadastrarSocio(string nome, int idade, string endereco)
         {
             if (string.IsNullOrWhiteSpace(nome) || idade <= 0 || string.IsNullOrWhiteSpace(endereco))
             {
                 return false;
             }
 
-            pessoas.Add(new Pessoa(nome, idade, endereco));
+            socios.Add(new Socio(nome, idade, endereco));
             return true;
         }
 
-        public bool CadastrarLivro(string titulo, string autor, int anoPublicacao)
+        public bool CadastrarLivro(string titulo, string autor, string genero, int anoPublicacao)
         {
             if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(autor) || anoPublicacao <= 0)
             {
                 return false;
             }
 
-            livros.Add(new Livro(titulo, autor, anoPublicacao));
+            livros.Add(new Livro(titulo, autor, genero, anoPublicacao));
             return true;
         }
 
-        public bool EmprestarLivro(string tituloLivro, string nomePessoa, DateTime dataEmprestimo, DateTime dataDevolucao)
+        public bool EmprestarLivro(string tituloLivro, string nomeSocio, DateTime dataEmprestimo, DateTime dataDevolucao)
         {
             Livro livro = livros.Find(l => l.Titulo == tituloLivro);
-            Pessoa pessoa = pessoas.Find(p => p.Nome == nomePessoa);
+            Socio socio = socios.Find(p => p.Nome == nomeSocio);
 
-            if (livro == null || pessoa == null)
+            if (livro == null || socio == null)
             {
                 return false;
             }
@@ -53,7 +53,7 @@ namespace Biblioteca
                 return false; // Livro já emprestado
             }
 
-            emprestimos.Add(new Emprestimo(pessoa, livro, dataEmprestimo, dataDevolucao));
+            emprestimos.Add(new Emprestimo(socio, livro, dataEmprestimo, dataDevolucao));
             return true;
         }
 
@@ -72,16 +72,16 @@ namespace Biblioteca
 
         public bool DescadastrarPessoa(string nome)
         {
-            Pessoa pessoa = pessoas.Find(p => p.Nome == nome);
+            Socio socio = socios.Find(p => p.Nome == nome);
 
-            if (pessoa == null)
+            if (socio == null)
             {
-                return false; // Pessoa não encontrada
+                return false; // Socio não encontrada
             }
 
             // Remover pessoa e seus empréstimos
-            emprestimos.RemoveAll(e => e.PessoaEmprestadora == pessoa);
-            pessoas.Remove(pessoa);
+            emprestimos.RemoveAll(e => e.PessoaEmprestante == socio);
+            socios.Remove(socio);
             return true;
         }
 
@@ -100,11 +100,11 @@ namespace Biblioteca
             return true;
         }
 
-        public void ListarPessoas()
+        public void ListarSocios()
         {
-            foreach (Pessoa pessoa in pessoas)
+            foreach (Socio socio in socios)
             {
-                Console.WriteLine($"Nome: {pessoa.Nome}, Idade: {pessoa.Idade}, Endereço: {pessoa.Endereco}");
+                Console.WriteLine($"Nome: {socio.Nome}, Idade: {socio.Idade}, Endereço: {socio.Endereco}");
             }
         }
 
@@ -120,15 +120,15 @@ namespace Biblioteca
         {
             foreach (Emprestimo emprestimo in emprestimos)
             {
-                Console.WriteLine($"Livro: {emprestimo.LivroEmprestado.Titulo}, Pessoa: {emprestimo.PessoaEmprestadora.Nome}");
+                Console.WriteLine($"Livro: {emprestimo.LivroEmprestado.Titulo}, Socio: {emprestimo.PessoaEmprestante.Nome}");
             }
         }
 
-        public void ListarPessoasEmprestadoras()
+        public void ListarSociosEmprestantes()
         {
             foreach (Emprestimo emprestimo in emprestimos)
             {
-                Console.WriteLine($"Pessoa: {emprestimo.PessoaEmprestadora.Nome}, Livro: {emprestimo.LivroEmprestado.Titulo}");
+                Console.WriteLine($"Socio: {emprestimo.PessoaEmprestante.Nome}, Livro: {emprestimo.LivroEmprestado.Titulo}");
             }
         }
     }

@@ -18,14 +18,14 @@ namespace Biblioteca
             while (true)
             {
                 Console.WriteLine("\nEscolha uma opção:");
-                Console.WriteLine("1. Cadastrar Pessoa");
+                Console.WriteLine("1. Cadastrar Socio");
                 Console.WriteLine("2. Cadastrar Livro");
                 Console.WriteLine("3. Emprestar Livro");
                 Console.WriteLine("4. Devolver Livro");
-                Console.WriteLine("5. Listar Pessoas");
+                Console.WriteLine("5. Listar Sócios");
                 Console.WriteLine("6. Listar Livros");
                 Console.WriteLine("7. Listar Livros Emprestados");
-                Console.WriteLine("8. Listar Pessoas Emprestadoras");
+                Console.WriteLine("8. Listar Pessoas Emprestantes");
                 Console.WriteLine("0. Sair");
 
                 int opcao;
@@ -38,7 +38,7 @@ namespace Biblioteca
                 switch (opcao)
                 {
                     case 1:
-                        CadastrarPessoa();
+                        CadastrarSocio();
                         break;
                     case 2:
                         CadastrarLivro();
@@ -50,7 +50,7 @@ namespace Biblioteca
                         DevolverLivro();
                         break;
                     case 5:
-                        servicosBiblioteca.ListarPessoas();
+                        servicosBiblioteca.ListarSocios();
                         break;
                     case 6:
                         servicosBiblioteca.ListarLivros();
@@ -59,7 +59,7 @@ namespace Biblioteca
                         servicosBiblioteca.ListarLivrosEmprestados();
                         break;
                     case 8:
-                        servicosBiblioteca.ListarPessoasEmprestadoras();
+                        servicosBiblioteca.ListarSociosEmprestantes();
                         break;
                     case 0:
                         Console.WriteLine("Até logo!");
@@ -71,7 +71,7 @@ namespace Biblioteca
             }
         }
 
-        private void CadastrarPessoa()
+        private void CadastrarSocio()
         {
             Console.Write("Digite o nome da pessoa: ");
             string nome = Console.ReadLine();
@@ -87,9 +87,9 @@ namespace Biblioteca
             Console.Write("Digite o endereço da pessoa: ");
             string endereco = Console.ReadLine();
 
-            if (servicosBiblioteca.CadastrarPessoa(nome, idade, endereco))
+            if (servicosBiblioteca.CadastrarSocio(nome, idade, endereco))
             {
-                Console.WriteLine("Pessoa cadastrada com sucesso.");
+                Console.WriteLine("Socio cadastrada com sucesso.");
             }
             else
             {
@@ -105,6 +105,9 @@ namespace Biblioteca
             Console.Write("Digite o autor do livro: ");
             string autor = Console.ReadLine();
 
+            Console.Write("Digite o gênero do livro: ");
+            string genero = Console.ReadLine();
+
             Console.Write("Digite o ano de publicação do livro: ");
             int anoPublicacao;
             if (!int.TryParse(Console.ReadLine(), out anoPublicacao))
@@ -113,7 +116,7 @@ namespace Biblioteca
                 return;
             }
 
-            if (servicosBiblioteca.CadastrarLivro(titulo, autor, anoPublicacao))
+            if (servicosBiblioteca.CadastrarLivro(titulo, autor, genero, anoPublicacao))
             {
                 Console.WriteLine("Livro cadastrado com sucesso.");
             }

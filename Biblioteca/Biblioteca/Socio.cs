@@ -2,13 +2,13 @@
 
 namespace Biblioteca
 {
-    public class Pessoa
+    public class Socio
     {
         public string Nome { get; }
         public int Idade { get; }
         public string Endereco { get; }
 
-        public Pessoa(string nome, int idade, string endereco)
+        public Socio(string nome, int idade, string endereco)
         {
             Nome = nome;
             Idade = idade;
